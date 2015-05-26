@@ -33,5 +33,8 @@ int main(int argc, char* argv[])
   printf("super_power in '%%e' format with precision 2 %.2e\n", super_power);
   printf("super_power in '%%g' format %g.\n", super_power);
   printf("super_power in '%%a' format with precision 3 %.3a.\n", super_power);
+
+  printf("");
+
   return 0;
 }
