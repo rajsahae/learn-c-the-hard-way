@@ -2,7 +2,7 @@ CFLAGS=-Wall -g
 BIN=bin
 SRC=src
 
-all: folders ex1 ex2 ex3 ex4 ex5 ex6 ex7 ex8 ex9
+all: folders ex1 ex2 ex3 ex4 ex5 ex6 ex7 ex8 ex9 ex10
 
 folders: 
 	mkdir -p bin
@@ -37,3 +37,6 @@ ex8:
 
 ex9:
 	$(CC) $(CFLAGS) -o $(BIN)/ex9 $(SRC)/ex9.c
+
+ex10:
+	$(CC) $(CFLAGS) -o $(BIN)/ex10 $(SRC)/ex10.c
