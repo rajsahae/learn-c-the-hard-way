@@ -2,7 +2,7 @@ CFLAGS=-Wall -g
 BIN=bin
 SRC=src
 
-all: ex1 ex2 ex3 ex4 ex5 ex6
+all: ex1 ex2 ex3 ex4 ex5 ex6 ex7
 
 clean:
 	rm -rf bin
@@ -25,3 +25,6 @@ ex5:
 
 ex6:
 	$(CC) $(CFLAGS) -o $(BIN)/ex6 $(SRC)/ex6.c
+
+ex7:
+	$(CC) $(CFLAGS) -o $(BIN)/ex7 $(SRC)/ex7.c
