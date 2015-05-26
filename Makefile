@@ -2,7 +2,10 @@ CFLAGS=-Wall -g
 BIN=bin
 SRC=src
 
-all: ex1 ex2 ex3 ex4 ex5 ex6 ex7
+all: folders ex1 ex2 ex3 ex4 ex5 ex6 ex7
+
+folders: 
+	mkdir -p bin
 
 clean:
 	rm -rf bin
