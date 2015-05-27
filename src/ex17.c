@@ -109,6 +109,9 @@ void Database_set(struct Connection* conn, int id, const char* name, const char*
   struct Address* addr = &conn->db->rows[id];
   if ( addr->set ) die("Already set, delete it first");
 
+  printf("strlen name: %lu\n", strlen(name) );
+  printf("strlen email: %lu\n", strlen(email) );
+
   addr->set = 1;
   // WARNING: bug, read the "How To Break It" and fix this
   char* res = strncpy(addr->name, name, MAX_DATA);
@@ -116,14 +119,19 @@ void Database_set(struct Connection* conn, int id, const char* name, const char*
   if ( !res ) die("Email copy failed");
 
   // fix the strncpy bug by adding the terminator if needed
-  if ( sizeof(name) >= MAX_DATA ) {
+  if ( strlen(name) >= MAX_DATA ) {
     puts("name was too long, adding terminator");
     addr->name[MAX_DATA-1] = '\0';
   }
-  // This doesn't seem to be working yet
 
   res = strncpy(addr->email, email, MAX_DATA);
   if ( !res ) die("Email copy failed");
+
+  // fix the strncpy bug by adding the terminator if needed
+  if ( strlen(email) >= MAX_DATA ) {
+    puts("email was too long, adding terminator");
+    addr->email[MAX_DATA-1] = '\0';
+  }
 }
 
 void Database_get(struct Connection* conn, int id)
