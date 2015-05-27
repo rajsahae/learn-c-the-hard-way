@@ -30,6 +30,7 @@
 
 # Debug files
 *.dSYM/
+*.dat
 
 # Binaries
 bin
