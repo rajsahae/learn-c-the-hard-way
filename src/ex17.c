@@ -7,17 +7,50 @@
 static const int MAX_DATA = 512;
 static const int MAX_ROWS = 100;
 
+/*
+ * Address struct
+ */
 struct Address {
   int id;
   int set;
-  char name[MAX_DATA];
-  char email[MAX_DATA];
+  char* name;
+  char* email;
 };
 
+struct Address* Address_create(const int max_size)
+{
+  struct Address* addr = malloc(sizeof(struct Address));
+  addr->name           = malloc(max_size);
+  addr->email          = malloc(max_size);
+
+  return addr;
+}
+
+void Address_destroy(struct Address* addr)
+{
+  if ( addr ) {
+    if ( addr->name ) free(addr->name);
+    if ( addr->email ) free(addr->email);
+
+    free(addr);
+  }
+}
+
+void Address_print(struct Address* addr)
+{
+  printf("%3d: %s <%s>\n", addr->id, addr->name, addr->email);
+}
+
+/*
+ * Database struct
+ */
 struct Database {
   struct Address rows[MAX_ROWS];
 };
 
+/*
+ * Connection struct
+ */
 struct Connection {
   FILE* file;
   struct Database* db;
@@ -41,16 +74,20 @@ void die(const char* message, struct Connection* conn)
   exit(1);
 }
 
-void Address_print(struct Address* addr)
-{
-  printf("%3d: %s <%s>\n", addr->id, addr->name, addr->email);
-}
-
 void Database_load(struct Connection* conn)
 {
   int rc = fread(conn->db, sizeof(struct Database), 1, conn->file);
   if ( rc != 1 ) {
     die("Failed to load database", conn);
+  }
+
+  int i = 0;
+  for ( i = 0 ; i < MAX_ROWS ; i++ ) {
+    conn->db->rows[i] = *Address_create(MAX_DATA);
+    fread(&conn->db->rows[i].id, sizeof(int), 1, conn->file);
+    fread(&conn->db->rows[i].set, sizeof(int), 1, conn->file);
+    fread(conn->db->rows[i].name, MAX_DATA, 1, conn->file);
+    fread(conn->db->rows[i].email, MAX_DATA, 1, conn->file);
   }
 }
 
@@ -82,7 +119,16 @@ void Database_close(struct Connection* conn)
 {
   if ( conn ) {
     if ( conn->file ) fclose(conn->file);
-    if ( conn->db   ) free(conn->db);
+    if ( conn->db   ) {
+
+      int i = 0;
+      for ( i = 0 ; i < MAX_ROWS ; i++ ) {
+        // printf("Destroying address: %d\n", i);
+        // Address_destroy(&conn->db->rows[i]);
+      }
+
+      free(conn->db);
+    }
     free(conn);
   }
 }
@@ -94,6 +140,14 @@ void Database_write(struct Connection* conn)
   int rc = fwrite(conn->db, sizeof(struct Database), 1, conn->file);
   if ( rc != 1 ) die("Failed to write database", conn);
 
+  int i = 0;
+  for ( i = 0 ; i < MAX_ROWS ; i++ ) {
+    fwrite(&conn->db->rows[i].id, sizeof(int), 1, conn->file);
+    fwrite(&conn->db->rows[i].set, sizeof(int), 1, conn->file);
+    fwrite(conn->db->rows[i].name, MAX_DATA, 1, conn->file);
+    fwrite(conn->db->rows[i].email, MAX_DATA, 1, conn->file);
+  }
+
   rc = fflush(conn->file);
   if ( rc == -1 ) die("Cannot flush database", conn);
 }
@@ -103,10 +157,9 @@ void Database_create(struct Connection* conn)
   int i = 0;
 
   for ( i = 0 ; i < MAX_ROWS ; i++ ) {
-    // make a prototype to initialize it
-    struct Address addr = {.id = i, .set = 0};
-    // then just assign it
-    conn->db->rows[i] = addr;
+    conn->db->rows[i] = *Address_create(MAX_DATA);
+    conn->db->rows[i].id  = i;
+    conn->db->rows[i].set = 0;
   }
 }
 
@@ -221,5 +274,5 @@ int main(int argc, char* argv[])
   Database_close(conn);
 
   return 0;
-  
+
 }
