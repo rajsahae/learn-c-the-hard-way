@@ -15,6 +15,7 @@ folders:
 clean:
 	rm -rf bin
 	rm -rf ex*.dSYM
+	rm -f db.dat
 
 $(EXAMPLES): folders
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $(SRC)/$@.c
