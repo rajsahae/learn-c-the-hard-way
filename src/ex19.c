@@ -3,15 +3,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
 
 #include "ex19.h"
 
 int Monster_attack(void* self, int damage)
 {
+  assert(self);
+  assert(damage >= 0);
+
   Monster *monster = self;
 
   printf("You attack %s for %d damage!\n", monster->_(description), damage);
 
+  assert(monster->hit_points > 0);
   monster->hit_points -= damage;
 
   if (monster->hit_points > 0) {
@@ -25,8 +30,11 @@ int Monster_attack(void* self, int damage)
 
 int Monster_init(void* self)
 {
+  assert(self);
+
   Monster* monster = self;
   monster->hit_points = 10;
+
   return 1;
 }
 
@@ -38,6 +46,8 @@ Object MonsterProto = {
 
 void* Room_move(void* self, Direction direction)
 {
+  assert(self);
+
   Room* room = self;
   Room* next = NULL;
 
@@ -66,6 +76,9 @@ void* Room_move(void* self, Direction direction)
 
 int Room_attack(void* self, int damage)
 {
+  assert(self);
+  assert(damage >= 0);
+
   Room* room = self;
   Monster* monster = room->bad_guy;
 
@@ -89,9 +102,13 @@ Object RoomProto = {
 
 void* Map_move(void* self, Direction direction)
 {
+  assert(self);
+
   Map* map = self;
   Room* location = map->location;
   Room* next = NULL;
+
+  assert(location);
 
   next = location->_(move)(location, direction);
 
@@ -103,14 +120,21 @@ void* Map_move(void* self, Direction direction)
 
 int Map_attack(void* self, int damage)
 {
+  assert(self);
+  assert(damage >= 0);
+
   Map* map = self;
   Room* location = map->location;
+
+  assert(location);
 
   return location->_(attack)(location, damage);
 }
 
 int Map_init(void* self)
 {
+  assert(self);
+
   Map* map = self;
 
   // make some rooms for a small map
@@ -119,8 +143,15 @@ int Map_init(void* self)
   Room* arena   = NEW(Room, "The arena, with the minotaur");
   Room* kitchen = NEW(Room, "The Kitchen, you have the knife now");
 
+  assert(hall);
+  assert(throne);
+  assert(arena);
+  assert(kitchen);
+
   // Put the bad guy in the arena
   arena->bad_guy = NEW(Monster, "The evil minotaur");
+
+  assert(arena->bad_guy);
 
   // Setup the map rooms
   throne->west  = arena;
@@ -146,7 +177,9 @@ Object MapProto = {
 
 int process_input(Map* game)
 {
-  printf("\n");
+  assert(game);
+
+  printf("\n> ");
 
   char ch = getchar();
   getchar(); // eat ENTER
@@ -154,10 +187,9 @@ int process_input(Map* game)
   int damage = rand() % 4;
 
   switch(ch) {
-    case -1:
+    case EOF:
       printf("Giving up? You suck\n");
       return 0;
-      break;
 
     case 'n':
       game->_(move)(game, NORTH);
@@ -201,6 +233,9 @@ int main(int argc, char* argv[])
 
   // make the map
   Map *game = NEW(Map, "The Hall of the Minotaur");
+
+  assert(game);
+  assert(game->location);
 
   printf("You enter the ");
   game->location->_(describe)(game->location);
