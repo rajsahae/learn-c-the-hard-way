@@ -13,11 +13,14 @@ int Monster_attack(void* self, int damage)
   assert(damage >= 0);
 
   Monster *monster = self;
-
-  printf("You attack %s for %d damage!\n", monster->_(description), damage);
-
   assert(monster->hit_points > 0);
-  monster->hit_points -= damage;
+
+  if (damage == 0) {
+    printf("WHOOSH! Your attack missed!\n");
+  } else {
+    printf("You attack %s for %d damage!\n", monster->_(description), damage);
+    monster->hit_points -= damage;
+  }
 
   if (monster->hit_points > 0) {
     printf("%s still has %d hitpoints!\n", monster->_(description), monster->hit_points);
