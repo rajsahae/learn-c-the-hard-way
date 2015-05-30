@@ -29,3 +29,6 @@ ex19: object.o
 object.o: folders
 	$(CC) $(CFLAGS) -c -o $(OBJ)/object.o $(SRC)/object.c
 
+test: ex17 ex19
+	test/ex17_test.sh
+	test/ex19_test.sh
