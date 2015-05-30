@@ -31,18 +31,7 @@ int Monster_attack(void* self, int damage)
   }
 }
 
-int Monster_init(void* self)
-{
-  assert(self);
-
-  Monster* monster = self;
-  monster->hit_points = 10;
-
-  return 1;
-}
-
 Object MonsterProto = {
-  .init = Monster_init,
   .attack = Monster_attack
 };
 
@@ -141,20 +130,37 @@ int Map_init(void* self)
   Map* map = self;
 
   // make some rooms for a small map
-  Room* hall    = NEW(Room, "The great Hall");
-  Room* throne  = NEW(Room, "The throne room");
-  Room* arena   = NEW(Room, "The arena, with the minotaur");
-  Room* kitchen = NEW(Room, "The Kitchen, you have the knife now");
+  Room* hall      = NEW(Room, "The great Hall");
+  Room* throne    = NEW(Room, "The throne room");
+  Room* arena     = NEW(Room, "The arena, with The Minotaur");
+  Room* kitchen   = NEW(Room, "The Kitchen, you need a snack?");
+  Room* quarters  = NEW(Room, "The servants quarters");
+  Room* courtyard = NEW(Room, "The courtyard to the castle");
+  Room* guest     = NEW(Room, "The guest quarters");
 
   assert(hall);
   assert(throne);
   assert(arena);
   assert(kitchen);
+  assert(quarters);
+  assert(courtyard);
+  assert(guest);
 
-  // Put the bad guy in the arena
-  arena->bad_guy = NEW(Monster, "The evil minotaur");
+  // Populate the bad guys
+  arena->bad_guy     = NEW(Monster, "The evil minotaur");
+  quarters->bad_guy  = NEW(Monster, "A disgruntled worker!");
+  guest->bad_guy     = NEW(Monster, "A seriously neglected visitor!");
+  courtyard->bad_guy = NEW(Monster, "A rabid squirell!");
 
   assert(arena->bad_guy);
+  assert(quarters->bad_guy);
+  assert(courtyard->bad_guy);
+  assert(guest->bad_guy);
+
+  arena->bad_guy->hit_points = 20;
+  quarters->bad_guy->hit_points = 10;
+  guest->bad_guy->hit_points = 10;
+  courtyard->bad_guy->hit_points = 5;
 
   // Setup the map rooms
   throne->west  = arena;
@@ -165,9 +171,17 @@ int Map_init(void* self)
   kitchen->west = throne;
   hall->north   = throne;
 
+  hall->west = quarters;
+  hall->east = guest;
+  hall->south = courtyard;
+
+  quarters->east = hall;
+  guest->west = hall;
+  courtyard->north = hall;
+
   // start the map and the character off in the hall
-  map->start = hall;
-  map->location = hall;
+  map->start = courtyard;
+  map->location = courtyard;
 
   return 1;
 }

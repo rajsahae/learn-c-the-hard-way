@@ -11,7 +11,6 @@ struct Monster {
 typedef struct Monster Monster;
 
 int Monster_attack(void* self, int damage);
-int Monster_init(void* self);
 
 
 struct Room {
