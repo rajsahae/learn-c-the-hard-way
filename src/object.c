@@ -32,7 +32,7 @@ void* Object_move(void* self, Direction direction) {
 }
 
 int Object_attack(void* self, int damage) {
-  printf("You can't go that direction.\n");
+  printf("You can't attack.\n");
   return 0;
 }
 

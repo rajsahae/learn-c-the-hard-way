@@ -10,12 +10,12 @@ int Monster_attack(void* self, int damage)
 {
   Monster *monster = self;
 
-  printf("You attack %s!\n", monster->_(description));
+  printf("You attack %s for %d damage!\n", monster->_(description), damage);
 
   monster->hit_points -= damage;
 
   if (monster->hit_points > 0) {
-    printf("It is still alive\n");
+    printf("%s still has %d hitpoints!\n", monster->_(description), monster->hit_points);
     return 0;
   } else {
     printf("It is dead!\n");
@@ -70,7 +70,10 @@ int Room_attack(void* self, int damage)
   Monster* monster = room->bad_guy;
 
   if (monster) {
-    monster->_(attack)(monster, damage);
+    if (monster->_(attack)(monster, damage)) {
+      free(room->bad_guy);
+      room->bad_guy = NULL;
+    }
     return 1;
   } else {
     printf("You flail in the air at nothing...Idiot\n");
