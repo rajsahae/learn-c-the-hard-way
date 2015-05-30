@@ -28,8 +28,7 @@ typedef struct Room Room;
 
 void* Room_move(void* self, Direction direction);
 int Room_attack(void* self, int damage);
-// int Room_init(void* self);
-
+void Room_describe(void* self);
 
 struct Map {
   Object proto;

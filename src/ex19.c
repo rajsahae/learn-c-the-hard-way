@@ -86,9 +86,23 @@ int Room_attack(void* self, int damage)
   }
 }
 
+void Room_describe(void* self)
+{
+  assert(self);
+
+  Room* room = self;
+
+  if (room->proto.description)
+    printf("%s\n", room->proto.description);
+
+  if (room->bad_guy)
+    printf("You see %s", room->bad_guy->_(description));
+}
+
 Object RoomProto = {
   .move = Room_move,
-  .attack = Room_attack
+  .attack = Room_attack,
+  .describe = Room_describe
 };
 
 
