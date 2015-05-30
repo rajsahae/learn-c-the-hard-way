@@ -220,7 +220,7 @@ int process_input(Map* game)
       break;
 
     default:
-      printf("What?: %d\n", ch);
+      printf("What?: %c\n", ch);
   }
 
   return 1;
