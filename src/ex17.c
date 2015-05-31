@@ -86,8 +86,11 @@ void Database_load(struct Connection* conn)
     conn->db->rows[i] = *Address_create(MAX_DATA);
     fread(&conn->db->rows[i].id, sizeof(int), 1, conn->file);
     fread(&conn->db->rows[i].set, sizeof(int), 1, conn->file);
-    fread(conn->db->rows[i].name, MAX_DATA, 1, conn->file);
-    fread(conn->db->rows[i].email, MAX_DATA, 1, conn->file);
+
+    if (conn->db->rows[i].set) {
+      fread(conn->db->rows[i].name, MAX_DATA, 1, conn->file);
+      fread(conn->db->rows[i].email, MAX_DATA, 1, conn->file);
+    }
   }
 }
 
@@ -144,8 +147,11 @@ void Database_write(struct Connection* conn)
   for ( i = 0 ; i < MAX_ROWS ; i++ ) {
     fwrite(&conn->db->rows[i].id, sizeof(int), 1, conn->file);
     fwrite(&conn->db->rows[i].set, sizeof(int), 1, conn->file);
-    fwrite(conn->db->rows[i].name, MAX_DATA, 1, conn->file);
-    fwrite(conn->db->rows[i].email, MAX_DATA, 1, conn->file);
+
+    if (conn->db->rows[i].set) {
+      fwrite(conn->db->rows[i].name, MAX_DATA, 1, conn->file);
+      fwrite(conn->db->rows[i].email, MAX_DATA, 1, conn->file);
+    }
   }
 
   rc = fflush(conn->file);
