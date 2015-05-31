@@ -7,6 +7,23 @@
 static const int MAX_DATA = 512;
 static const int MAX_ROWS = 100;
 
+/* TODO
+ * Change the code to accept parameters for MAX_DATA and MAX_ROWS,
+ * store them in the Database struct, and write that to the file,
+ * thus creating a database that can be arbitrarily sized. (partially done)
+ *
+ * Add more operations you can do on the database, like find.
+ *
+ * Add some more fields to the Address and make them searchable.
+ *
+ * Try reworking the program to use a single global for the
+ * database connection. How does this new version of the
+ * program compare to the other one?
+ *
+ * Go research "stack data structure" and write one in 
+ * your favorite language, then try to do it in C.
+ */
+
 /*
  * Address struct
  */
