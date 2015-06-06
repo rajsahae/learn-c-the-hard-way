@@ -28,13 +28,13 @@ int Map_init(void* self)
   Map* map = self;
 
   // make some rooms for a small map
-  Room* hall      = NEW(Room, "The great Hall");
-  Room* throne    = NEW(Room, "The throne room");
-  Room* arena     = NEW(Room, "The arena, with The Minotaur");
-  Room* kitchen   = NEW(Room, "The Kitchen, you need a snack?");
-  Room* quarters  = NEW(Room, "The servants quarters");
-  Room* courtyard = NEW(Room, "The courtyard to the castle");
-  Room* guest     = NEW(Room, "The guest quarters");
+  Room* hall      = NEW(Room, "the great hall");
+  Room* throne    = NEW(Room, "the throne room");
+  Room* arena     = NEW(Room, "the arena");
+  Room* kitchen   = NEW(Room, "the Kitchen, you need a snack?");
+  Room* quarters  = NEW(Room, "the servants quarters");
+  Room* courtyard = NEW(Room, "the courtyard to the castle");
+  Room* guest     = NEW(Room, "the guest quarters");
 
   assert(hall);
   assert(throne);
@@ -45,10 +45,10 @@ int Map_init(void* self)
   assert(guest);
 
   // Populate the bad guys
-  arena->bad_guy     = NEW(Monster, "The evil minotaur");
-  quarters->bad_guy  = NEW(Monster, "A disgruntled worker!");
-  guest->bad_guy     = NEW(Monster, "A seriously neglected visitor!");
-  courtyard->bad_guy = NEW(Monster, "A rabid squirell!");
+  arena->bad_guy     = NEW(Monster, "the evil minotaur");
+  quarters->bad_guy  = NEW(Monster, "a disgruntled worker!");
+  guest->bad_guy     = NEW(Monster, "a seriously neglected visitor!");
+  courtyard->bad_guy = NEW(Monster, "a rabid squirell!");
 
   assert(arena->bad_guy);
   assert(quarters->bad_guy);

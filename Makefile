@@ -34,4 +34,4 @@ game: folders
 
 test: ex17 ex19
 	test/ex17_test.sh
-	test/ex19_test.sh
+	test/ex19_test.exp
