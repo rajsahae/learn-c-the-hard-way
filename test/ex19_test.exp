@@ -1,0 +1,203 @@
+#!/usr/bin/env expect -f
+
+set timeout 1
+
+set look   "l\n"
+set attack "a\n"
+set north  "n\n"
+set south  "s\n"
+set east   "e\n"
+set west   "w\n"
+set giveup ""
+
+set enterMsg   "You enter"
+set seeMsg     "You see"
+set goNorthMsg "You go north"
+set goSouthMsg "You go south"
+set goEastMsg  "You go east"
+set goWestMsg  "You go west"
+set canGoMsg   "You can go:"
+set cantGoMsg  "You can't go that direction"
+set northMsg   "North"
+set southMsg   "South"
+set eastMsg    "East"
+set westMsg    "West"
+set attackMsg  "You attack"
+set whooshMsg  "WHOOSH!"
+set deadMsg    "It is dead!"
+set flailMsg   "You flail in the air at nothing...Idiot"
+set giveupMsg  "Giving up? You suck"
+
+set courtyardDesc        "the courtyard to the castle"
+set greatHallDesc        "the great hall"
+set guestQuartersDesc    "the guest quarters"
+set servantsQuartersDesc "the servants quarters"
+set throneRoomDesc       "the throne room"
+set kitchenDesc          "the Kitchen, you need a snack?"
+set arenaDesc            "the arena"
+
+set squirellDesc "a rabid squirell!"
+set visitorDesc  "a seriously neglected visitor"
+set workerDesc   "a disgruntled worker!"
+set minotaurDesc "the evil minotaur"
+
+proc myexpect {pattern} {
+  expect { 
+    $pattern {}
+    timeout  { puts "Pattern not found: /$pattern/" ; exit 1}
+  }
+}
+proc fight {atkCmd atkMsg monstDesc missMsg deadMsg flailMsg} {
+  while 1 {
+  send $atkCmd
+    expect  {
+      -re "$atkMsg $monstDesc" { continue }
+      -re $missMsg             { continue }
+      -re $deadMsg             { break    }
+      timeout                  { exit 1   }
+    }
+  }
+
+  send $atkCmd
+  myexpect $flailMsg
+}
+
+spawn "bin/ex19"
+
+myexpect $enterMsg
+myexpect $courtyardDesc
+myexpect $seeMsg
+myexpect $squirellDesc
+
+send $look
+
+myexpect $canGoMsg
+myexpect $northMsg
+
+fight $attack $attackMsg $squirellDesc $whooshMsg $deadMsg $flailMsg
+
+send $look
+myexpect $canGoMsg
+myexpect $northMsg
+
+send $north
+myexpect $goNorthMsg
+myexpect $greatHallDesc
+
+send $look
+myexpect $canGoMsg
+myexpect $northMsg
+myexpect $southMsg
+myexpect $eastMsg
+myexpect $westMsg
+
+send $east
+myexpect $goEastMsg
+myexpect $guestQuartersDesc
+myexpect $seeMsg
+myexpect $visitorDesc
+
+fight $attack $attackMsg $visitorDesc $whooshMsg $deadMsg $flailMsg
+
+send $look
+myexpect $canGoMsg
+myexpect $westMsg
+
+send $north
+myexpect $cantGoMsg
+send $east
+myexpect $cantGoMsg
+send $south
+myexpect $cantGoMsg
+send $west
+myexpect $goWestMsg
+myexpect $greatHallDesc
+
+send $look
+myexpect $canGoMsg
+myexpect $northMsg
+myexpect $southMsg
+myexpect $eastMsg
+myexpect $westMsg
+
+send $west
+myexpect $goWestMsg
+myexpect $servantsQuartersDesc
+myexpect $seeMsg
+myexpect $workerDesc
+
+fight $attack $attackMsg $workerDesc $whooshMsg $deadMsg $flailMsg
+
+send $look
+myexpect $canGoMsg
+myexpect $eastMsg
+
+send $north
+myexpect $cantGoMsg
+send $west
+myexpect $cantGoMsg
+send $south
+myexpect $cantGoMsg
+send $east
+myexpect $goEastMsg
+myexpect $greatHallDesc
+
+send $look
+myexpect $canGoMsg
+myexpect $northMsg
+myexpect $southMsg
+myexpect $eastMsg
+myexpect $westMsg
+
+send $north
+myexpect $goNorthMsg
+myexpect $throneRoomDesc
+
+send $look
+myexpect $canGoMsg
+myexpect $southMsg
+myexpect $eastMsg
+myexpect $westMsg
+
+send $north
+myexpect $cantGoMsg
+send $east
+myexpect $goEastMsg
+myexpect $kitchenDesc
+
+send $look
+myexpect $canGoMsg
+myexpect $westMsg
+
+send $north
+myexpect $cantGoMsg
+send $east
+myexpect $cantGoMsg
+send $south
+myexpect $cantGoMsg
+send $west
+myexpect $goWestMsg
+myexpect $throneRoomDesc
+
+send $west
+myexpect $goWestMsg
+myexpect $arenaDesc
+myexpect $seeMsg
+myexpect $minotaurDesc
+
+fight $attack $attackMsg $minotaurDesc $whooshMsg $deadMsg $flailMsg
+
+send $look
+myexpect $canGoMsg
+myexpect $eastMsg
+
+send $north
+myexpect $cantGoMsg
+send $south
+myexpect $cantGoMsg
+send $west
+myexpect $cantGoMsg
+
+send $giveup
+myexpect $giveupMsg
+
