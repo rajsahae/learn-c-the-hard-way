@@ -45,4 +45,21 @@ int Map_init(void* self);
 
 int run(Map* game);
 
+static Object MonsterProto = {
+  .attack = Monster_attack
+};
+
+static Object RoomProto = {
+  .move = Room_move,
+  .attack = Room_attack,
+  .describe = Room_describe
+};
+
+static Object MapProto = {
+  .init = Map_init,
+  .move = Map_move,
+  .attack = Map_attack
+};
+
+
 #endif

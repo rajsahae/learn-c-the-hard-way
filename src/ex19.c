@@ -5,22 +5,6 @@
 
 #include "game.h"
 
-Object MonsterProto = {
-  .attack = Monster_attack
-};
-
-Object RoomProto = {
-  .move = Room_move,
-  .attack = Room_attack,
-  .describe = Room_describe
-};
-
-Object MapProto = {
-  .init = Map_init,
-  .move = Map_move,
-  .attack = Map_attack
-};
-
 int Map_init(void* self)
 {
   assert(self);
