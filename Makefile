@@ -8,7 +8,7 @@ EXAMPLES=ex1 ex2 ex3 ex4 ex5      \
 	 ex11 ex12 ex13 ex14 ex15 \
 	 ex16 ex17 ex18 ex20
 
-all: $(EXAMPLES) ex19 ex19_b
+all: $(EXAMPLES) ex19 ex19_b ex22
 
 folders: 
 	mkdir -p bin
@@ -42,3 +42,7 @@ test_ex17: ex17
 
 test_ex19: ex19
 	test/ex19_test.exp
+
+ex22: folders
+	$(CC) $(CFLAGS) -c -o $(OBJ)/ex22.o $(SRC)/ex22.c
+	$(CC) $(CFLAGS) -o $(BIN)/ex22_main $(OBJ)/ex22.o $(SRC)/ex22_main.c
