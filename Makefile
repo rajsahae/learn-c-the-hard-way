@@ -6,7 +6,8 @@ CFLAGS=-Wall -g -I$(SRC)
 EXAMPLES=ex1 ex2 ex3 ex4 ex5      \
 	 ex6 ex7 ex8 ex9 ex10     \
 	 ex11 ex12 ex13 ex14 ex15 \
-	 ex16 ex17 ex18 ex20 ex23
+	 ex16 ex17 ex18 ex20 ex23 \
+	 ex24
 
 all: $(EXAMPLES) ex19 ex19_b ex22
 
@@ -35,13 +36,16 @@ object: folders
 game: folders
 	$(CC) $(CFLAGS) -c -o $(OBJ)/game.o $(SRC)/game.c
 
-test: test_ex17 test_ex19
+test: test_ex17 test_ex19 test_ex24
 
 test_ex17: ex17
 	test/ex17_test.sh
 
 test_ex19: ex19
 	test/ex19_test.exp
+
+test_ex24: ex24
+	test/ex24_test.exp
 
 ex22: folders
 	$(CC) $(CFLAGS) -c -o $(OBJ)/ex22.o $(SRC)/ex22.c
