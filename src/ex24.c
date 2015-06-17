@@ -29,12 +29,10 @@ int main(int argc, char* argv[])
   int eyes   = -1;
 
   printf("What's your First Name? ");
-  // in = fgets(you.first_name, MAX_DATA-1, stdin);
   in = fgets(you.first_name, MAX_DATA, stdin);
   check(in != NULL, "Failed to read first name");
 
   printf("What's your Last Name? ");
-  // in = fgets(you.last_name, MAX_DATA-1, stdin);
   in = fgets(you.last_name, MAX_DATA, stdin);
   check(in != NULL, "Failed to read last name");
 
