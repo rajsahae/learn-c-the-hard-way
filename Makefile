@@ -36,16 +36,13 @@ object: folders
 game: folders
 	$(CC) $(CFLAGS) -c -o $(OBJ)/game.o $(SRC)/game.c
 
-test: test_ex17 test_ex19 test_ex24
+test: test_ex17 test_ex19
 
 test_ex17: ex17
 	test/ex17_test.sh
 
 test_ex19: ex19
 	test/ex19_test.exp
-
-test_ex24: ex24
-	test/ex24_test.exp
 
 ex22: folders
 	$(CC) $(CFLAGS) -c -o $(OBJ)/ex22.o $(SRC)/ex22.c
