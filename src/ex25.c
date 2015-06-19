@@ -94,38 +94,77 @@ error:
   return -1;
 }
 
+int my_printf(const char* fmt, ...)
+{
+
+  int i = 0;
+  va_list argp;
+
+  va_start(argp, fmt);
+
+  while (fmt[i] != '\0') {
+    if (fmt[i] == '%') {
+      i++;
+      switch (fmt[i++]) {
+        case '\0':
+          sentinel("Invalid format, you ended with %%");
+          break;
+
+        case 'c':
+          putchar(va_arg(argp, int));
+          break;
+
+        case 's':
+          fputs(va_arg(argp, char*), stdout);
+          break;
+
+        default:
+          sentinel("Invalid format specifier");
+
+      }
+    } else {
+      putchar(fmt[i++]);
+    }
+  }
+
+  return 0;
+error:
+  return -1;
+}
+
 int main(int argc, char* argv[])
 {
-  char *first_name = NULL;
-  char initial = ' ';
-  char* last_name = NULL;
-  int age = 0;
-  int rc = -1;
+  char* first_name = NULL;
+  char  initial    = ' ';
+  char* last_name  = NULL;
+  char* age        = NULL;
+  int rc           = -1;
 
-  printf("%30s? ", "What's your first name");
+  my_printf("%s? ", "What's your first name");
   rc = read_scan("%s", MAX_DATA, &first_name);
   check(rc == 0, "Failed first name");
   
-  printf("%30s? ", "What's your middle initial");
+  my_printf("%s? ", "What's your middle initial");
   rc = read_scan("%c\n", &initial);
   check(rc == 0, "Failed middle initial");
   
-  printf("%30s? ", "What's your last name");
+  my_printf("%s? ", "What's your last name");
   rc = read_scan("%s", MAX_DATA, &last_name);
   check(rc == 0, "Failed last name");
   
-  printf("%30s? ", "How old are you");
-  rc = read_scan("%d", &age);
+  my_printf("%s? ", "How old are you");
+  rc = read_scan("%s", MAX_DATA, &age);
   check(rc == 0, "Failed age");
 
-  printf("---- RESULTS ----\n");
-  printf("%10s: %s"  , "First Name", first_name );
-  printf("%10s: %c\n", "Initial"   , initial    );
-  printf("%10s: %s"  , "Last Name" , last_name  );
-  printf("%10s: %d\n", "Age"       , age        );
+  my_printf("---- RESULTS ----\n");
+  my_printf("%s: %s"  , "First Name", first_name );
+  my_printf("%s: %c\n", "Initial"   , initial    );
+  my_printf("%s: %s"  , "Last Name" , last_name  );
+  my_printf("%s: %s"  , "Age"       , age        );
 
   free(first_name);
   free(last_name);
+  free(age);
   
   return 0;
 
