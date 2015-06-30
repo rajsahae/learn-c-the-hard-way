@@ -1,0 +1,27 @@
+The devpkg program is a small, lightweight, package manager.  It can Fetch,
+Build, and Install software packages onto your system.  All packages are
+installed into /usr/local and tracked in a database stored at
+/usr/local/.devpkg/db.
+
+To use devpkg, pass in a command option (required) followed by optional build
+options.  Before using devpkg for the first time, you must initialize the
+database with 'devpkg -S'.  Once you have initialized the database, you may
+then run devpkg with the other options to Install, List, Fetch, or Build
+packages.
+
+For all options that take a URL parameter, the URL parameter is required.
+
+Usage: devpkg ( -S | -I [url] | -L | -F [url] | -B [url] ) [-c config_opts] [-m make_opts] [-i install_opts]
+
+COMMAND OPTIONS:
+
+  -S      Initialize the devpkg database at /usr/local/.devpkg/db
+  -I URL  Install a package with the given URL
+  -L      List all installed packages
+  -F URL  Fetch package with the given URL, but do not install it.
+  -B URL  Install a package with the given URL, even if it's already installed
+
+  For the install (-I) and build (-B) options, if you pass in a url that 
+  end with the word "DEPENDS", it will consider the URL a dependency
+  text file and iterate through the URLs contained within that file,
+  installing each package in turn. (i.e. http://fileserver.com/package/DEPENDS)

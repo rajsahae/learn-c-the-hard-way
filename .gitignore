@@ -34,3 +34,6 @@
 
 # Binaries
 bin
+
+# devpkg binary
+devpkg
