@@ -10,6 +10,7 @@ EXAMPLES=ex1 ex2 ex3 ex4 ex5      \
 	 ex24 ex25 ex27
 
 all: $(EXAMPLES) ex19 ex19_b ex22
+	make -C devpkg
 
 folders: 
 	mkdir -p bin
@@ -20,6 +21,7 @@ clean:
 	rm -rf obj
 	rm -rf ex*.dSYM
 	rm -f db.dat
+	make -C devpkg clean
 
 $(EXAMPLES): folders
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $(SRC)/$@.c
