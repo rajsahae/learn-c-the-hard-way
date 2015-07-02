@@ -42,4 +42,4 @@ bin/ex17 db.dat d 10
 # Clean up after ourselves
 rm -vf db.dat
 
-echo All tests passed
+echo "\nex17: All tests passed\n"

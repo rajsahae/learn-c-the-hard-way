@@ -201,3 +201,4 @@ myexpect $cantGoMsg
 send $giveup
 myexpect $giveupMsg
 
+system echo '\nex19: All tests passed\n'
