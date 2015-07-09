@@ -43,4 +43,6 @@ $EXE -B $URL
 # Cleanup
 cleanup
 
-echo "\ndevpkg: All tests passed\n"
+echo
+echo devpkg: All tests passed
+echo
