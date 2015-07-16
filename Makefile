@@ -7,7 +7,7 @@ EXAMPLES=ex1 ex2 ex3 ex4 ex5      \
 	 ex6 ex7 ex8 ex9 ex10     \
 	 ex11 ex12 ex13 ex14 ex15 \
 	 ex16 ex17 ex18 ex20 ex23 \
-	 ex24 ex25 ex27
+	 ex24 ex25 ex27 ex29
 
 all: $(EXAMPLES) ex19 ex19_b ex22
 	make -C devpkg
@@ -17,10 +17,7 @@ folders:
 	mkdir -p obj
 
 clean:
-	rm -rf bin
-	rm -rf obj
-	rm -rf ex*.dSYM
-	rm -f db.dat
+	rm -rf bin obj lib ex*.dSYM db.dat
 	make -C devpkg clean
 
 $(EXAMPLES): folders

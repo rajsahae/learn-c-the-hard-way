@@ -5,10 +5,11 @@
 #include <errno.h>
 #include <string.h>
 
+#define error_location "%s:%d in '%s'"
+
 #ifdef NDEBUG
 #define debug(M, ...)
 #else
-#define error_location "%s:%d in '%s'"
 #define debug(M, ...) fprintf(stderr, "DEBUG " error_location ": " M "\n", __FILE__, __LINE__, __func__, ##__VA_ARGS__)
 #endif
 
