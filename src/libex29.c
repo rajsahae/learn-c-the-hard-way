@@ -8,32 +8,38 @@ int print_a_message(const char* msg)
   return 0;
 }
 
-int uppercase(const char* msg)
+int uppercase(const char* msg, long len)
 {
-  int i = 0;
+  check(len > 0, "msg length must be positive: %ld", len);
 
-  // BUG: \0 termination problems
-  for (i = 0; msg[i] != '\0'; i++) {
+  long i = 0;
+  for (i = 0; i < len; i++) {
     printf("%c", toupper(msg[i]));
   }
 
   printf("\n");
 
   return 0;
+
+error:
+  return 1;
 }
 
-int lowercase(const char* msg)
+int lowercase(const char* msg, long len)
 {
-  int i = 0;
+  check(len > 0, "msg length must be positive: %ld", len);
 
-  // BUG: \0 termination problems
-  for (i = 0; msg[i] != '\0'; i++) {
+  long i = 0;
+  for (i = 0; i < len; i++) {
     printf("%c", tolower(msg[i]));
   }
 
   printf("\n");
 
   return 0;
+
+error:
+  return 1;
 }
 
 int fail_on_purpose(const char* msg)
