@@ -37,3 +37,6 @@ bin
 
 # devpkg binary
 devpkg
+
+# extra credit test files
+ex29-extra-credit/test/*test
