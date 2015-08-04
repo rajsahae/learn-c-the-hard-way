@@ -31,7 +31,7 @@ build:
 
 # The Unit Tests
 .PHONY: test
-test: CFLAGS=-g -Wall -Wextra -Isrc $(OPTFLAGS)
+test: CFLAGS += $(TARGET)
 test: $(TESTS)
 	sh ./test/runtests.sh
 
