@@ -38,8 +38,8 @@ bin
 # devpkg binary
 devpkg
 
-# extra credit test files
-ex29-extra-credit/test/*test
+# test files
+*_test
 
 # logfiles
 *.log
