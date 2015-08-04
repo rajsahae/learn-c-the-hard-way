@@ -40,3 +40,6 @@ devpkg
 
 # extra credit test files
 ex29-extra-credit/test/*test
+
+# logfiles
+*.log
