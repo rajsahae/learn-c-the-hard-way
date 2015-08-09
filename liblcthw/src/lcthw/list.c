@@ -6,32 +6,26 @@ List* List_create()
   return calloc(1, sizeof(List));
 }
 
-void List_destroy(List* list)
+void List_clear_destroy(List* list)
 {
   LIST_FOREACH(list, first, next, cur) {
     if(cur->prev) {
+      if(cur->prev->value) {
+        free(cur->prev->value);
+      }
       free(cur->prev);
     }
   }
 
-  free(list->last);
-  free(list);
-}
-
-void List_clear(List* list)
-{
-  LIST_FOREACH(list, first, next, cur) {
-    free(cur->value);
+  if (list->last) {
+    if (list->last->value) {
+      free(list->last->value);
+    }
+    free(list->last);
   }
-}
 
-/*
- * Not the most efficient as it loops through the list twice
- */
-void List_clear_destroy(List* list)
-{
-  List_clear(list);
-  List_destroy(list);
+  if (list)
+    free(list);
 }
 
 int List_count(List* list)
