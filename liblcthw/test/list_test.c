@@ -96,6 +96,54 @@ char* test_shift()
   return NULL;
 }
 
+char* test_split()
+{
+  List* new_list = List_create();
+  List_push(new_list, test1);
+  List_push(new_list, test2);
+  List_push(new_list, test3);
+
+  mu_assert(List_count(new_list) == 3, "List doesn't have expected size of 3");
+
+  List* left = NULL;
+  List* right = NULL;
+
+  int rc = List_split(new_list, 4, &left, &right);
+  mu_assert(rc == 1, "Split succeeded unexpectedly");
+    
+  rc = List_split(new_list, 2, &left, &right);
+  mu_assert(rc == 0, "Split failed unexpectedly");
+
+  mu_assert(left != NULL, "Left list still NULL");
+  mu_assert(right != NULL, "Right list still NULL");
+
+  debug("List_count(left): %d", List_count(left));
+  debug("List_count(right): %d", List_count(right));
+
+  mu_assert(List_count(left) == 2, "Left list doesn't have correct size");
+  mu_assert(List_count(right) == 1, "Right list doesn't have correct size");
+
+  mu_assert(List_first(left) == test1, "Left list first value incorrect");
+  mu_assert(List_last(left) == test2, "Left list last value incorrect");
+
+  mu_assert(List_first(right) == test3, "Right list first value incorrect");
+  mu_assert(List_last(right) == test3, "Right list last value incorrect");
+
+  List_destroy(new_list);
+  List_destroy(left);
+  List_destroy(right);
+
+  return NULL;
+}
+
+char* test_print()
+{
+  int rc = List_print(list, "testlist");
+  mu_assert(rc == 0, "Failed to print list");
+
+  return NULL;
+}
+
 char* all_tests()
 {
   mu_suite_start();
@@ -103,6 +151,8 @@ char* all_tests()
   mu_run_test(test_create);
   mu_run_test(test_push_pop);
   mu_run_test(test_unshift);
+  mu_run_test(test_print);
+  mu_run_test(test_split);
   mu_run_test(test_remove);
   mu_run_test(test_shift);
   mu_run_test(test_destroy);

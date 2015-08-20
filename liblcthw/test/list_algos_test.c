@@ -67,9 +67,9 @@ char* test_merge_sort()
   List* res2 = List_merge_sort(res, (List_compare)strcmp);
   mu_assert(is_sorted(res), "Should still be sorted after merge sort");
 
-  List_destroy(res2);
-  List_destroy(res);
   List_destroy(words);
+  List_destroy(res);
+  List_destroy(res2);
 
   return NULL;
 }

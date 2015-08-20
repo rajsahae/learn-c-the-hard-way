@@ -8,19 +8,17 @@ List* List_create()
 
 void List_destroy(List* list)
 {
+  if (list == NULL) {
+    return;
+  }
+
   LIST_FOREACH(list, first, next, cur) {
     if(cur->prev) {
-      if(cur->prev->value) {
-        free(cur->prev->value);
-      }
       free(cur->prev);
     }
   }
 
   if (list->last) {
-    if (list->last->value) {
-      free(list->last->value);
-    }
     free(list->last);
   }
 
@@ -130,4 +128,59 @@ void* List_remove(List* list, ListNode* node)
 
 error:
   return result;
+}
+
+/*
+ * Takes a list and a count.
+ * list = List to split
+ * count = number of items that should be in the left list
+ * left = List pointer that will be assigned to left list
+ * right = List pointer that will be assigned to right list
+ *
+ * Original list is modified to create split lists. Old list will be empty
+ * once the split is complete
+ */
+int List_split(List* list, int count, List** p_left, List** p_right)
+{
+  check(list != NULL, "List provided is NULL");
+  check(count > 0, "Split count invalid: %d", count);
+
+  int size = List_count(list);
+  check(count <= size, "Split count (%d) greater than List size (%d)", count, size);
+
+  *p_left = List_create();
+  *p_right = List_create();
+
+  List* left = *p_left;
+  List* right = *p_right;
+
+  int i = 0;
+  while(i++ < count) {
+    List_push(left, List_shift(list));
+  }
+
+  i = 0;
+  while(i++ < size - count) {
+    List_push(right, List_shift(list));
+  }
+
+  return 0;
+
+error:
+  return 1;
+}
+
+int List_print(List* list, const char* name)
+{
+  check(list != NULL, "Cannot print NULL list");
+
+  int i = 1;
+  LIST_FOREACH(list, first, next, cur) {
+    check(cur != NULL, "Cannot print NULL ListNode");
+    printf("List(%s) Node(%d): %s\n", name, i++, cur->value);
+  }
+
+  return 0;
+error:
+  return 1;
 }
